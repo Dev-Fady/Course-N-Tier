@@ -17,7 +17,7 @@ namespace Course_N_Tier.BLL.Manager
         {
             this.studentRepo = studentRepo;
         }
-        public void AddStudent(StudentAddDto studentDto)
+        public async Task AddStudent(StudentAddDto studentDto)
         {
             var student = new Student
             {
@@ -26,22 +26,22 @@ namespace Course_N_Tier.BLL.Manager
                 InstructorId=studentDto.Guid
             };
 
-            studentRepo.AddStudent(student);
+            await studentRepo.AddStudent(student);
         }
 
-        public void DeleteStudent(Guid Id)
+        public async Task DeleteStudent(Guid Id)
         {
-            var existingStudent = studentRepo.GetStuedtById(Id);
+            var existingStudent = await studentRepo.GetStuedtById(Id);
 
             if (existingStudent == null)
                 throw new Exception("الطالب غير موجود");
 
-            studentRepo.DeleteStudent(Id);
+           await studentRepo.DeleteStudent(Id);
         }
 
-        public IEnumerable<StudentReadDto> GetAllStuedt()
+        public async Task<IEnumerable<StudentReadDto>> GetAllStuedt()
         {
-            var studennt= studentRepo.GetAllStuedt();
+            var studennt=await studentRepo.GetAllStuedt();
             var studetsDtos = studennt.Select(s => new StudentReadDto
             {
                 Id = s.Id,
@@ -54,9 +54,9 @@ namespace Course_N_Tier.BLL.Manager
             return studetsDtos;
         }
 
-        public StudentReadDto GetStuedtById(Guid id)
+        public async Task<StudentReadDto?> GetStuedtById(Guid id)
         {
-            var s = studentRepo.GetStuedtById(id);
+            var s = await studentRepo.GetStuedtById(id);
 
             if (s == null) return null;
 
@@ -71,9 +71,9 @@ namespace Course_N_Tier.BLL.Manager
             };
         }
 
-        public void UpdateStudent(StudentUpdateDto student)
+        public async Task UpdateStudent(StudentUpdateDto student)
         {
-            var existingStudent = studentRepo.GetStuedtById(student.Id);
+            var existingStudent = await studentRepo.GetStuedtById(student.Id);
 
             if (existingStudent == null)
                 throw new Exception("الطالب غير موجود");
@@ -84,7 +84,7 @@ namespace Course_N_Tier.BLL.Manager
                 Description = student.Description
             };
 
-            studentRepo.UpdateStudent(Updatestudent);
+            await studentRepo.UpdateStudent(Updatestudent);
         }
     }
 }

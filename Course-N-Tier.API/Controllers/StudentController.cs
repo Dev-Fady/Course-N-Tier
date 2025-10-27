@@ -17,15 +17,15 @@ namespace Course_N_Tier.API.Controllers
         }
 
         [HttpGet("GetAllStudets")]
-        public IActionResult GetAllStudets() {
-            var studets = studentManger.GetAllStuedt();
+        public async Task<IActionResult> GetAllStudets() {
+            var studets = await studentManger.GetAllStuedt();
             return Ok(studets);
         }
 
         [HttpGet("{id:Guid}")]
-        public IActionResult GetStudentById(Guid id)
+        public async Task<IActionResult> GetStudentById(Guid id)
         {
-            var student = studentManger.GetStuedtById(id);
+            var student =await studentManger.GetStuedtById(id);
 
             if (student == null)
                 return NotFound("الطالب غير موجود");
@@ -33,23 +33,23 @@ namespace Course_N_Tier.API.Controllers
             return Ok(student);
         }
         [HttpPost("AddStudent")]
-        public IActionResult AddStudent([FromBody] StudentAddDto studentDto)
+        public async Task<IActionResult> AddStudent([FromBody] StudentAddDto studentDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            studentManger.AddStudent(studentDto);
+           await studentManger.AddStudent(studentDto);
             return Ok("تم إضافة الطالب بنجاح");
         }
         [HttpPut("UpdateStudent")]
-        public IActionResult UpdateStudent([FromBody] StudentUpdateDto studentDto)
+        public async Task<IActionResult> UpdateStudent([FromBody] StudentUpdateDto studentDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                studentManger.UpdateStudent(studentDto);
+                await studentManger.UpdateStudent(studentDto);
                 return Ok("تم تحديث بيانات الطالب بنجاح");
             }
             catch (Exception ex)
@@ -58,11 +58,11 @@ namespace Course_N_Tier.API.Controllers
             }
         }
         [HttpDelete("{id:Guid}")]
-        public IActionResult DeleteStudent(Guid id)
+        public async Task<IActionResult> DeleteStudent(Guid id)
         {
             try
             {
-                studentManger.DeleteStudent(id);
+                await studentManger.DeleteStudent(id);
                 return Ok("تم حذف الطالب بنجاح");
             }
             catch (Exception ex)

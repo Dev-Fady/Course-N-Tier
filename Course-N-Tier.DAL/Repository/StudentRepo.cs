@@ -1,5 +1,6 @@
 ﻿using Course_N_Tier.DAL.Database;
 using Course_N_Tier.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Course_N_Tier.DAL.Repository
 {
@@ -12,37 +13,37 @@ namespace Course_N_Tier.DAL.Repository
             this.context = context;
         }
 
-        public IQueryable<Student> GetAllStuedt()
+        public async Task<IQueryable<Student>> GetAllStuedt()
         {
-            return context.Students;
+            return await Task.FromResult(context.Students.AsNoTracking().AsQueryable());
         }
 
-        public Student GetStuedtById(Guid Id)
+        public async Task<Student?> GetStuedtById(Guid Id)
         {
-            return context.Students.FirstOrDefault(a => a.Id == Id);
+            return await context.Students.FirstOrDefaultAsync(a => a.Id == Id);
         }
-        public void AddStudent(Student student)
+        public async Task AddStudent(Student student)
         {
             context.Add(student);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void DeleteStudent(Guid id)
+        public async Task DeleteStudent(Guid id)
         {
-            var student = context.Students.FirstOrDefault(a => a.Id == id);
+            var student = await context.Students.FirstOrDefaultAsync(a => a.Id == id);
 
             if (student != null)
             {
                 context.Students.Remove(student);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
 
-        public void UpdateStudent(Student student)
+        public async Task UpdateStudent(Student student)
         {
-           context.Update(student);
-            context.SaveChanges();
+            context.Update(student);
+            await context.SaveChangesAsync();
         }
     }
 }

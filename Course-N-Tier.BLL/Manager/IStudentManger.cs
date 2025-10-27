@@ -10,11 +10,11 @@ namespace Course_N_Tier.BLL.Manager
 {
     public interface IStudentManger
     {
-        IEnumerable<StudentReadDto> GetAllStuedt();
-        StudentReadDto GetStuedtById(Guid Id);
+        Task<IEnumerable<StudentReadDto>?> GetAllStuedt();
+        Task<StudentReadDto?> GetStuedtById(Guid Id);
 
-        void AddStudent(StudentAddDto student);
-        void UpdateStudent(StudentUpdateDto student);
-        void DeleteStudent(Guid Id);
+        Task AddStudent(StudentAddDto student);
+        Task UpdateStudent(StudentUpdateDto student);
+        Task DeleteStudent(Guid Id);
     }
 }
