@@ -30,6 +30,9 @@ namespace Course_N_Tier.API
             builder.Services.AddScoped<IStudentManger, StudentManger>();
             builder.Services.AddScoped<IInstructorManger, InstructorManger>();
 
+            // Register Memory Cache
+            builder.Services.AddMemoryCache();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
